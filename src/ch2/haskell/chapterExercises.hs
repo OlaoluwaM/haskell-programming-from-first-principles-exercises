@@ -7,4 +7,4 @@ waxOn = x * 5
 
 triple x = x * 3
 
-waxOff = triple
+waxOff x = triple x `quot` 10 + rem 5 x

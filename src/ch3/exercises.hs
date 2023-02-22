@@ -23,3 +23,14 @@ module Exercises where
 
   results :: [Bool]
   results = [a == "Curry is awesome!", b == 'y', c == "awesome!"]
+
+
+  getThirdChar :: String -> Char
+  getThirdChar str = str !! 2
+
+  letterIndex :: Int -> Char
+  letterIndex x = "Curry is awesome" !! x
+
+
+  rvrs :: String -> String
+  rvrs str = drop 9 str ++ take 3 (drop 5 str) ++ " " ++ take 5 str

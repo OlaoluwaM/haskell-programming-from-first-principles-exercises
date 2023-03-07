@@ -5,5 +5,3 @@ module Reverse where
 
   main :: IO ()
   main = print $ rvrs "Curry is awesome"
-
-  data Boole = True | False

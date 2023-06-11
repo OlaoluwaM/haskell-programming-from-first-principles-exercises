@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
-module Test where
+import Data.List (sort)
 
 data Trivial = Trivial
 
@@ -93,3 +93,17 @@ truth = Papu (Rocks "Cho") (Yeah True)
 
 equalityForAll :: Papu -> Papu -> Bool
 equalityForAll p p' = p == p
+
+mySort :: [Char] -> [Char]
+mySort = sort
+
+signifier :: [Char] -> Char
+signifier xs = head (mySort xs)
+
+-- Type-Kwon Do
+
+chk :: (Eq b) => (a -> b) -> a -> b -> Bool
+chk f a b = f a == b
+
+arith :: (Num b) => (a -> b) -> Integer -> a -> b
+arith f n a = f a + fromInteger n

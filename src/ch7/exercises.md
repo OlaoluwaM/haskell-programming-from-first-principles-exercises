@@ -19,3 +19,13 @@ k3 = k (3, True)
 f :: (a, b, c) -> (d, e, f) -> ((a, d), (c, f))
 f (a, b, c) (d, e, f) = ((a, d), (c, f))
 ```
+
+## Chapter Exercises
+
+### Multiple Choice
+
+1. d
+2. b
+3. d
+4. b
+5. a

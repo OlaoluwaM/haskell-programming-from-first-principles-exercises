@@ -1,5 +1,6 @@
 module Playground where
 
+import Data.Char (isSpace)
 import Data.List (intercalate, intersperse)
 import GHC.Num (integerIsNegative)
 

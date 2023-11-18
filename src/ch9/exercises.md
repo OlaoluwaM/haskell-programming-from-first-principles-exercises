@@ -133,3 +133,97 @@ eftChar char1 char2
       ans2 = [(x, y) | (x, y) <- ans, x < 50 && y < 50]
       ans3 = length ans2
     ```
+
+## Exercise: Bottom Madness
+
+1. `[x^y | x <- [1..5], y <- [2, undefined]]` will return bottom because list comprehension is strict on the values (and by extension the spine) of the input sets (lists)
+2. `take 1 $ [x^y | x <- [1..5], y <- [2, undefined]]` might not necessarily return bottom. However, I think it won't since, if we consider Haskell's laziness, only the first element of both input sets needs to be evaluated and neither is `undefined`. Will return `2`
+3. `sum [1, undefined, 3]` will return bottom because `sum` is strict on the spine and on the values
+4. `length [1, 2, undefined]` won't return bottom because, as we've learnt, `length` is strict only on the spine, not the values
+5. `length $ [1, 2, 3] ++ undefined` will return bottom because the second list has an `undefined` spine which cannot be traversed by length. Moreover, it is possible that the application of `++` happens before the application of `length`.
+6. `take 1 $ filter even [1, 2, 3, undefined]` won't return bottom because we only need to evaluate the first element of the filtered list. This can be done without reaching the `undefined` value at the end of the list. Will return `2`
+7. `take 1 $ filter even [1, 3, undefined]` will return bottom because there isn't a preceding element that would return satisfying the `even` predicate, so `undefined` must be checked, and thus evaluated, then `bottom` is returned
+8. `take 1 $ filter odd [1, 3, undefined]` won't return bottom for the same reason as number 6. Because of laziness we only require the first odd value in the list. The element `1` fits this description and thus, the `undefined` does not need to be evaluated. Returns `1`
+9. `take 2 $ filter odd [1, 3, undefined]` won't return bottom because of laziness. We only need to evaluate up until we get the first 2 elements that are odd. `1` and `3` are odd, thus evaluation ceases after `3` and `undefined` is not evaluated. Will return `[1, 3]`
+10. `take 3 $ filter odd [1, 3, undefined]` will return bottom because there is no third odd number in the list. The last element, `undefined`, will need to be checked (evaluated) causing the entire expression to return bottom
+
+### Intermission: Is it in normal form?
+
+1. `[1, 2, 3, 4, 5]` - NF
+2. `1 : 2 : 3 : 4 : _` - NF, desugared version of #1
+3. `enumFromTo 1 10` - Neither
+4. `length [1, 2, 3, 4, 5]` - Neither
+5. `sum (enumFromTo 1 10)` - Neither
+6. `['a'..'m'] ++ ['n'..'z']` - Neither
+7. `(_, 'b')` - WHNF
+
+## Exercise: More bottoms
+
+1. `take 1 $ map (+1) [undefined, 2, 3]` will return bottom because we are forcing the evaluation of the first element in the list which is `undefined`
+2. `take 1 $ map (+1) [1, undefined, 3]` will not return bottom since the first element of the list is not `undefined`. Will return `[2]`
+3. `take 2 $ map (+1) [1, undefined, 3]` will return bottom because we would be forcing the evaluation of the second element in the list as well as the first. The second element is `undefined`
+4. The mystery function runs through each element of the list `xs` and checks whether each element is a vowel. The type is as follows: `itIsMystery :: String -> [Bool]`
+5. `map (^2) [1..10]`: `[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]`
+   1. `map minimum [[1..10], [10..20], [20..30]]`: `[1, 10, 20]`
+   2. `map sum [[1..5], [1..5], [1..5]]`: `[15, 15, 15]`
+6. `map (\x -> bool x (-x) (x == 3)) [1..10]`
+
+## Exercises: Filtering
+
+1. `filter (\x -> mod x 3 == 0) [1..30]`
+2. `numOfMultiplesOfThree = length . filter (\x -> mod x 3 == 0)`
+3. Filter articles `["the", "a", "an"]` from a sentence
+
+    ```haskell
+      articles :: [String]
+      articles = ["the", "a", "an"]
+
+      myFilter :: String -> [String]
+      myFilter = filter (`notElem` articles) . words
+    ```
+
+## Zipping exercises
+
+1. Write your own version of zip, and ensure it behaves the same as the original
+
+    ```haskell
+      myZip :: [a] -> [b] -> [(a, b)]
+      myZip [] _= []
+      myZip_ [] = []
+      myZip (a : as) (b : bs) = (a, b) : myZip as bs
+    ```
+
+2. Do what you did for zip but now for zipWith
+
+    ```haskell
+    myZipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+    myZipWith _ [] _ = []
+    myZipWith _ _ [] = []
+    myZipWith f (a : as) (b : bs) = f a b : myZipWith f as bs
+    ```
+
+3. Rewrite your zip in terms of the zipWith you wrote.
+
+    ```haskell
+    myZip' :: [a] -> [b] -> [(a, b)]
+    myZip' = myZipWith (,)
+    ```
+
+## 9.12 Chapter Exercises
+
+### Data.Char
+
+1. Given the following functions (`isUpper`, `isLower`), which would we use to write a function that filters all the uppercase letters out of a `String`? Write that function such that, given the input "HbEfLrLxO", your function will return "HELLO".
+
+    ```haskell
+      filterUpper :: String -> String
+      filterUpper = filter isUpper
+    ```
+
+2. Write a function that will capitalize the first letter of a string and return the entire string. For example, if given the argument "julie", it will return "Julie".
+
+    ```haskell
+      capitalize :: String -> String
+      capitalize "" = ""
+      capitalize (x : xs) = toUpper x : xs
+    ```

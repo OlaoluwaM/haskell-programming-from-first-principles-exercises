@@ -1,6 +1,6 @@
 module Playground where
 
-import Data.Char (isSpace)
+import Data.Char (isLower, isSpace, isUpper, toUpper)
 
 eftInt :: Int -> Int -> [Int]
 eftInt int1 int2
@@ -82,3 +82,20 @@ myChar charToBreakOn str
   trim = dropWhile isSpace str
   word = takeWhile (not . isCharToBreakOn) trim
   rest = dropWhile (not . isCharToBreakOn) trim
+
+myZip :: [a] -> [b] -> [(a, b)]
+myZip [] _ = []
+myZip _ [] = []
+myZip (a : as) (b : bs) = (a, b) : myZip as bs
+
+myZipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+myZipWith _ [] _ = []
+myZipWith _ _ [] = []
+myZipWith f (a : as) (b : bs) = f a b : myZipWith f as bs
+
+myZip' :: [a] -> [b] -> [(a, b)]
+myZip' = myZipWith (,)
+
+capitalize :: String -> String
+capitalize "" = ""
+capitalize (x : xs) = toUpper x : xs

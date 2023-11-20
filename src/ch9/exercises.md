@@ -227,3 +227,72 @@ eftChar char1 char2
       capitalize "" = ""
       capitalize (x : xs) = toUpper x : xs
     ```
+
+3. Now make a new version of that function that is recursive, such that if you give it the input "woot", it will holler back at you "WOOT". The type signature won’t change, but you will want to add a base case.
+
+    ```haskell
+      recursiveCapitalize :: String -> String
+      recursiveCapitalize "" = ""
+      recursiveCapitalize (char : chars) = toUpper char : recursiveCapitalize chars
+    ```
+
+4. To do the final exercise in this section, we’ll need another standard function for lists called `head`. Query the type of head, and experiment with it to see what it does. Now write a function that will capitalize the first letter of a `String` and return only that letter as the result.
+
+    ```haskell
+      capitalizeOnlyTheFirstLetter :: String -> Char
+      capitalizeOnlyTheFirstLetter "" = ' '
+      capitalizeOnlyTheFirstLetter str = toUpper $ head str
+    ```
+
+5. Cool. Good work. Now rewrite it as a composed function. Then, for fun, rewrite it point-free. Though it would be a partial function, since `head` yields a `bottom` when passed an empty list
+
+    ```haskell
+      capitalizeOnlyTheFirstLetter' :: String -> Char
+      capitalizeOnlyTheFirstLetter' = toUpper . head
+    ```
+
+### Ciphers
+
+[Cipher.hs](src/ch9/Cipher.hs)
+
+### Writing your own standard functions
+
+1. `myOr` returns `True` if any Bool in the list is `True`
+
+    ```haskell
+      myOr :: [Bool] -> Bool
+      myOr = foldr (||) False
+
+      myOrRecursive :: [Bool] -> Bool
+      myOrRecursive [] = False
+      myOrRecursive (b : bs) = b || myOrRecursive bs
+    ```
+
+2. `myAny` returns `True` if `a -> Bool` applied to any of the values in the list returns `True`:
+
+    ```haskell
+      myAny :: (a -> Bool) -> [a] -> Bool
+      myAny f = myOr . map f
+
+      myAny' :: (a -> Bool) -> [a] -> Bool
+      myAny' _ [] = False
+      myAny' f (a : as) = f a || myAny' f as
+    ```
+
+3. After you write the recursive `myElem`, write another version that uses `any`. The built-in version of `elem` in GHC 7.10 and newer has a type that uses `Foldable` instead of the list type, specifically. You can ignore that and write the concrete version that works only for lists:
+
+    ```haskell
+      myElem :: (Eq a) => a -> [a] -> Bool
+      myElem _ [] = False
+      myElem a' (a : as) = a == a' || myElem a' as
+
+      myElem' :: (Eq a) => a -> [a] -> Bool
+      myElem' a = any (==a)
+    ```
+
+4. Implement `myReverse`
+
+    ```haskell
+      myReverse :: [a] -> [a]
+      myReverse = foldl (flip (:)) []
+    ```

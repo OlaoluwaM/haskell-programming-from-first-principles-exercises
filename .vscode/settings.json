@@ -1,5 +1,6 @@
 {
   "codeium.enableConfig": {
-    "haskell": false
+    "haskell": false,
+    "markdown": false
   }
 }

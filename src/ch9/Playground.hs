@@ -1,3 +1,7 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use foldr" #-}
+
 module Playground where
 
 import Data.Char (isLower, isSpace, isUpper, toUpper)
@@ -99,3 +103,38 @@ myZip' = myZipWith (,)
 capitalize :: String -> String
 capitalize "" = ""
 capitalize (x : xs) = toUpper x : xs
+
+recursiveCapitalize :: String -> String
+recursiveCapitalize "" = ""
+recursiveCapitalize (char : chars) = toUpper char : recursiveCapitalize chars
+
+capitalizeOnlyTheFirstLetter :: String -> Char
+capitalizeOnlyTheFirstLetter "" = ' '
+capitalizeOnlyTheFirstLetter str = toUpper $ head str
+
+capitalizeOnlyTheFirstLetter' :: String -> Char
+capitalizeOnlyTheFirstLetter' = toUpper . head
+
+myOr :: [Bool] -> Bool
+myOr = foldr (||) False
+
+myOrRecursive :: [Bool] -> Bool
+myOrRecursive [] = False
+myOrRecursive (b : bs) = b || myOrRecursive bs
+
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny f = myOr . map f
+
+myAny' :: (a -> Bool) -> [a] -> Bool
+myAny' _ [] = False
+myAny' f (a : as) = f a || myAny' f as
+
+myElem :: (Eq a) => a -> [a] -> Bool
+myElem _ [] = False
+myElem a' (a : as) = a == a' || myElem a' as
+
+myElem' :: (Eq a) => a -> [a] -> Bool
+myElem' a = any (== a)
+
+myReverse :: [a] -> [a]
+myReverse = foldl (flip (:)) []

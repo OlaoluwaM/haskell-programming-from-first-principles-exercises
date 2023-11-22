@@ -137,4 +137,16 @@ myElem' :: (Eq a) => a -> [a] -> Bool
 myElem' a = any (== a)
 
 myReverse :: [a] -> [a]
-myReverse = foldl (flip (:)) []
+myReverse [] = []
+myReverse (a : as) = myReverse' as ++ [a]
+
+myReverse' :: [a] -> [a]
+myReverse' = foldl (flip (:)) []
+
+squish :: [[a]] -> [a]
+squish [] = []
+squish (innerList : otherLists) = innerList ++ squish otherLists
+
+squishMap :: (a -> [b]) -> [a] -> [b]
+squishMap _ [] = []
+squishMap f (a : as) = f a ++ squishMap f as

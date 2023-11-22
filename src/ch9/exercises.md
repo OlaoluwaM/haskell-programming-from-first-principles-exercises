@@ -257,42 +257,4 @@ eftChar char1 char2
 
 ### Writing your own standard functions
 
-1. `myOr` returns `True` if any Bool in the list is `True`
-
-    ```haskell
-      myOr :: [Bool] -> Bool
-      myOr = foldr (||) False
-
-      myOrRecursive :: [Bool] -> Bool
-      myOrRecursive [] = False
-      myOrRecursive (b : bs) = b || myOrRecursive bs
-    ```
-
-2. `myAny` returns `True` if `a -> Bool` applied to any of the values in the list returns `True`:
-
-    ```haskell
-      myAny :: (a -> Bool) -> [a] -> Bool
-      myAny f = myOr . map f
-
-      myAny' :: (a -> Bool) -> [a] -> Bool
-      myAny' _ [] = False
-      myAny' f (a : as) = f a || myAny' f as
-    ```
-
-3. After you write the recursive `myElem`, write another version that uses `any`. The built-in version of `elem` in GHC 7.10 and newer has a type that uses `Foldable` instead of the list type, specifically. You can ignore that and write the concrete version that works only for lists:
-
-    ```haskell
-      myElem :: (Eq a) => a -> [a] -> Bool
-      myElem _ [] = False
-      myElem a' (a : as) = a == a' || myElem a' as
-
-      myElem' :: (Eq a) => a -> [a] -> Bool
-      myElem' a = any (==a)
-    ```
-
-4. Implement `myReverse`
-
-    ```haskell
-      myReverse :: [a] -> [a]
-      myReverse = foldl (flip (:)) []
-    ```
+[StdFunc.hs](src/ch9/StdFunc.hs)

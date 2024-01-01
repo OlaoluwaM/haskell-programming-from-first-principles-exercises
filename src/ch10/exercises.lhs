@@ -248,3 +248,28 @@ Rewriting functions using folds
 
 > squishMap :: (a -> [b]) -> [a] -> [b]
 > squishMap f = foldr ((++) . f) []
+
+9. $squishAgain$ flattens a list of lists into a list. This time, re-use the $squishMap$ function:
+
+> squishAgain :: [[a]] -> [a]
+> squishAgain = squishMap id
+
+10. $myMaximumBy$ takes a comparison function and a list and returns the greatest element of the list based on the last value that the comparison returns GT for:
+
+> myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
+> myMaximumBy _ [x] = x
+> myMaximumBy compareFn (x : xs) = case compareFn x tailMax of
+>   GT -> x
+>   _ -> tailMax
+>  where
+>   tailMax = myMaximumBy compareFn xs
+
+11. $myMinimumBy$ takes a comparison function and a list and returns the least element of the list based on the last value that the comparison returns LT for:
+
+> myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
+> myMinimumBy _ [x] = x
+> myMinimumBy compareFn (x : xs) = case compareFn x tailMin of
+>   LT -> x
+>   _ -> tailMin
+>  where
+>   tailMin = myMinimumBy compareFn xs

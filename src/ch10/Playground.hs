@@ -104,10 +104,27 @@ myFilter pred = foldr (\x acc -> if pred x then x : acc else acc) []
 squish :: [[a]] -> [a]
 squish = foldr (flip (++)) []
 
--- Figure out how is this
 squishMap :: (a -> [b]) -> [a] -> [b]
 squishMap f = foldr (\x acc -> acc ++ f x) []
 
--- Equivalent to this
 squishMap' :: (a -> [b]) -> [a] -> [b]
 squishMap' f = foldr ((++) . f) []
+
+squishAgain :: [[a]] -> [a]
+squishAgain = squishMap id
+
+myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
+myMaximumBy _ [x] = x
+myMaximumBy compareFn (x : xs) = case compareFn x tailMax of
+  GT -> x
+  _ -> tailMax
+ where
+  tailMax = myMaximumBy compareFn xs
+
+myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
+myMinimumBy _ [x] = x
+myMinimumBy compareFn (x : xs) = case compareFn x tailMin of
+  LT -> x
+  _ -> tailMin
+ where
+  tailMin = myMinimumBy compareFn xs

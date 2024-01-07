@@ -128,3 +128,12 @@ myMinimumBy compareFn (x : xs) = case compareFn x tailMin of
   _ -> tailMin
  where
   tailMin = myMinimumBy compareFn xs
+
+(>>>) :: (a -> b) -> (b -> c) -> a -> c
+(>>>) = flip (.)
+
+squishMap'' :: (Foldable t) => (a1 -> [a2]) -> t a1 -> [a2]
+squishMap'' f = foldr (f >>> (++)) []
+
+squishMap''' :: (Foldable t) => (a1 -> [a2]) -> t a1 -> [a2]
+squishMap''' f = foldl ((++) . f) []

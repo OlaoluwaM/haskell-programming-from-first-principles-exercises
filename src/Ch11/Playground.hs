@@ -1,4 +1,4 @@
-module Playground where
+module Ch11.Playground where
 
 data Price = Price Integer deriving (Eq, Show)
 data Manufacturer = Mini | Mazda | Tata deriving (Eq, Show)
@@ -119,3 +119,81 @@ data Automobile = Null | Car'' {make :: String, model :: String, year :: Integer
 -- This becomes possible
 aCarModel :: String
 aCarModel = model Null
+
+data BinaryTree a = Leaf | Node a (BinaryTree a) (BinaryTree a) deriving (Eq, Show)
+
+insert' :: (Ord a) => a -> BinaryTree a -> BinaryTree a
+insert' a Leaf = Node a Leaf Leaf
+insert' a bTree@(Node a' left right)
+  | a == a' = bTree
+  | a > a' = Node a left (insert' a right)
+  | a < a' =
+      Node
+        a
+        (insert' a left)
+        right
+
+mapTree :: (a -> b) -> BinaryTree a -> BinaryTree b
+mapTree _ Leaf = Leaf
+mapTree f (Node a leftBTree rightBTree) = Node (f a) (mapTree f leftBTree) (mapTree f rightBTree)
+
+testTree' :: BinaryTree Integer
+testTree' = Node 1 (Node 3 Leaf Leaf) (Node 4 Leaf Leaf)
+
+mapExpectedTree :: BinaryTree Integer
+mapExpectedTree = Node 2 (Node 4 Leaf Leaf) (Node 5 Leaf Leaf)
+
+preOrder :: BinaryTree a -> [a]
+preOrder Leaf = []
+preOrder (Node a leftBTree rightBTree) = a : (preOrder leftBTree ++ preOrder rightBTree)
+
+inOrder :: BinaryTree a -> [a]
+inOrder Leaf = []
+inOrder (Node a leftBTree rightBTree) = inOrder leftBTree ++ (a : inOrder rightBTree)
+
+postOrder :: BinaryTree a -> [a]
+postOrder Leaf = []
+postOrder (Node a leftBTree rightBTree) = postOrder leftBTree ++ postOrder rightBTree ++ [a]
+
+testTree :: BinaryTree Integer
+testTree = Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)
+
+testPreorder :: IO ()
+testPreorder =
+  if preOrder testTree == [2, 1, 3]
+    then putStrLn "Preorder fine!"
+    else putStrLn "Bad news bears."
+
+testInorder :: IO ()
+testInorder =
+  if inOrder testTree == [1, 2, 3]
+    then putStrLn "Inorder fine!"
+    else putStrLn "Bad news bears."
+
+testPostorder :: IO ()
+testPostorder =
+  if postOrder testTree == [1, 3, 2]
+    then putStrLn "Postorder fine!"
+    else putStrLn "Bad news bears"
+
+conversionCheck :: IO ()
+conversionCheck = do
+  testPreorder
+  testInorder
+  testPostorder
+
+foldrTree :: (a -> b -> b) -> b -> BinaryTree a -> b
+foldrTree _ b Leaf = b
+foldrTree f b (Node a leftTree rightTree) = f a remainingTreeFold
+ where
+  remainingTreeFold = foldrTree f rightTreeFold leftTree
+  rightTreeFold = foldrTree f b rightTree
+
+foldrTree' :: (a -> b -> b) -> b -> BinaryTree a -> b
+foldrTree' f b tree = foldr f b (inOrder tree)
+
+foldrTree'' :: (a -> b -> b) -> b -> BinaryTree a -> b
+foldrTree'' f b tree = foldr f b (preOrder tree)
+
+foldrTree''' :: (a -> b -> b) -> b -> BinaryTree a -> b
+foldrTree''' f b tree = foldr f b (postOrder tree)

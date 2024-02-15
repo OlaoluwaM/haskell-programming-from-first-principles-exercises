@@ -2,7 +2,7 @@
 
 {-# HLINT ignore "Use foldr" #-}
 
-module Playground where
+module Ch9.Playground where
 
 import Data.Char (isLower, isSpace, isUpper, toUpper)
 

@@ -2,5 +2,6 @@
   "codeium.enableConfig": {
     "haskell": false,
     "markdown": false
-  }
+  },
+  "cSpell.words": ["Ceaser"]
 }

@@ -1,1 +1,1 @@
-# Exercises from the "Haskell From First Principles" Book
+# haskell-from-first-principles-exercies

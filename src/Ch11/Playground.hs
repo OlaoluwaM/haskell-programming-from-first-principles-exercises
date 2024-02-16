@@ -73,9 +73,9 @@ instance TooMany GoatField where
   tooMany :: GoatField -> Bool
   tooMany (GoatField (Goats n1, Goats n2)) = tooMany (n1 + n2)
 
-instance (Num a, TooMany a) => TooMany (a, a) where
-  tooMany :: (a, a) -> Bool
-  tooMany (n, n2) = tooMany (n + n2)
+-- instance (Num a, TooMany a) => TooMany (a, a) where
+--   tooMany :: (a, a) -> Bool
+--   tooMany (n, n2) = tooMany (n + n2)
 
 data Gardenia = Gardenia deriving (Show)
 data Daisy = Daisy deriving (Show)

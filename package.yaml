@@ -42,6 +42,8 @@ library:
 
   exposed-modules:
     - Ch11.Cipher
+    - Ch11.Phone
+    - Ch11.PhoneAlt
     - Ch9.Cipher
     - Lib
 

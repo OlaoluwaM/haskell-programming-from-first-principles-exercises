@@ -1,137 +1,140 @@
 module Ch11.Playground where
 
-data Price = Price Integer deriving (Eq, Show)
-data Manufacturer = Mini | Mazda | Tata deriving (Eq, Show)
+import Data.Char
+import Data.List
 
-data Airline = PapuAir | CatapultsR'Us | TakeYourChancesUnited deriving (Eq, Show)
-data Vehicle = Car Manufacturer Price | Plane Airline deriving (Eq, Show)
+-- data Price = Price Integer deriving (Eq, Show)
+-- data Manufacturer = Mini | Mazda | Tata deriving (Eq, Show)
 
-myCar :: Vehicle
-myCar = Car Mini (Price 14000)
+-- data Airline = PapuAir | CatapultsR'Us | TakeYourChancesUnited deriving (Eq, Show)
+-- data Vehicle = Car Manufacturer Price | Plane Airline deriving (Eq, Show)
 
-urCar :: Vehicle
-urCar = Car Mazda (Price 20000)
+-- myCar :: Vehicle
+-- myCar = Car Mini (Price 14000)
 
-clownCar :: Vehicle
-clownCar = Car Tata (Price 7000)
+-- urCar :: Vehicle
+-- urCar = Car Mazda (Price 20000)
 
-doge :: Vehicle
-doge = Plane PapuAir
+-- clownCar :: Vehicle
+-- clownCar = Car Tata (Price 7000)
 
-isCar :: Vehicle -> Bool
-isCar (Car _ _) = True
-isCar _ = False
+-- doge :: Vehicle
+-- doge = Plane PapuAir
 
-isPlane :: Vehicle -> Bool
-isPlane = not . isCar
+-- isCar :: Vehicle -> Bool
+-- isCar (Car _ _) = True
+-- isCar _ = False
 
-areCars :: [Vehicle] -> [Bool]
-areCars = map isCar
+-- isPlane :: Vehicle -> Bool
+-- isPlane = not . isCar
 
-getManu :: Vehicle -> Maybe Manufacturer
-getManu (Car manufacturer _) = Just manufacturer
-getManu _ = Nothing
+-- areCars :: [Vehicle] -> [Bool]
+-- areCars = map isCar
 
-data PlaneSize = PlanetSize Float deriving (Eq, Show)
-data Vehicle' = Car' Manufacturer Price | Plane' Airline PlaneSize
-  deriving (Eq, Show)
+-- getManu :: Vehicle -> Maybe Manufacturer
+-- getManu (Car manufacturer _) = Just manufacturer
+-- getManu _ = Nothing
 
-myCar' :: Vehicle
-myCar' = Car Mini (Price 14000)
+-- data PlaneSize = PlanetSize Float deriving (Eq, Show)
+-- data Vehicle' = Car' Manufacturer Price | Plane' Airline PlaneSize
+--   deriving (Eq, Show)
 
-urCar' :: Vehicle
-urCar' = Car Mazda (Price 20000)
+-- myCar' :: Vehicle
+-- myCar' = Car Mini (Price 14000)
 
-clownCar' :: Vehicle
-clownCar' = Car Tata (Price 7000)
+-- urCar' :: Vehicle
+-- urCar' = Car Mazda (Price 20000)
 
-doge' :: Vehicle
-doge' = Plane PapuAir
+-- clownCar' :: Vehicle
+-- clownCar' = Car Tata (Price 7000)
 
-newtype Goats = Goats Int deriving (Show, Eq, Ord)
+-- doge' :: Vehicle
+-- doge' = Plane PapuAir
 
-class TooMany a where
-  tooMany :: a -> Bool
+-- newtype Goats = Goats Int deriving (Show, Eq, Ord)
 
-instance TooMany Int where
-  tooMany :: Int -> Bool
-  tooMany = (> 42)
+-- class TooMany a where
+--   tooMany :: a -> Bool
 
-instance TooMany Goats where
-  tooMany :: Goats -> Bool
-  tooMany (Goats n) = n > 43
+-- instance TooMany Int where
+--   tooMany :: Int -> Bool
+--   tooMany = (> 42)
 
-newtype Foo = Foo (Int, String) deriving (Show, Eq, Ord)
+-- instance TooMany Goats where
+--   tooMany :: Goats -> Bool
+--   tooMany (Goats n) = n > 43
 
-instance TooMany Foo where
-  tooMany :: Foo -> Bool
-  tooMany (Foo (n, _)) = tooMany n
+-- newtype Foo = Foo (Int, String) deriving (Show, Eq, Ord)
 
-newtype GoatField = GoatField (Goats, Goats) deriving (Show, Eq, Ord)
+-- instance TooMany Foo where
+--   tooMany :: Foo -> Bool
+--   tooMany (Foo (n, _)) = tooMany n
 
-instance TooMany GoatField where
-  tooMany :: GoatField -> Bool
-  tooMany (GoatField (Goats n1, Goats n2)) = tooMany (n1 + n2)
+-- newtype GoatField = GoatField (Goats, Goats) deriving (Show, Eq, Ord)
 
--- instance (Num a, TooMany a) => TooMany (a, a) where
---   tooMany :: (a, a) -> Bool
---   tooMany (n, n2) = tooMany (n + n2)
+-- instance TooMany GoatField where
+--   tooMany :: GoatField -> Bool
+--   tooMany (GoatField (Goats n1, Goats n2)) = tooMany (n1 + n2)
 
-data Gardenia = Gardenia deriving (Show)
-data Daisy = Daisy deriving (Show)
-data Rose = Rose deriving (Show)
-data Lilac = Lilac deriving (Show)
+-- -- instance (Num a, TooMany a) => TooMany (a, a) where
+-- --   tooMany :: (a, a) -> Bool
+-- --   tooMany (n, n2) = tooMany (n + n2)
 
-data FlowerType = Flower1 Gardenia | Flower2 Daisy | Flower3 Rose | Flower4 Lilac deriving (Show)
+-- data Gardenia = Gardenia deriving (Show)
+-- data Daisy = Daisy deriving (Show)
+-- data Rose = Rose deriving (Show)
+-- data Lilac = Lilac deriving (Show)
 
-type Gardener = String
+-- data FlowerType = Flower1 Gardenia | Flower2 Daisy | Flower3 Rose | Flower4 Lilac deriving (Show)
 
-data Garden = Garden Gardener FlowerType deriving (Show) -- Cardinality is Infinite
+-- type Gardener = String
 
--- Q: What is the sum of products normal form of Garden?
+-- data Garden = Garden Gardener FlowerType deriving (Show) -- Cardinality is Infinite
 
-data Garden' = Garden1 Gardener Gardenia | Garden2 Gardener Daisy | Garden3 Gardener Rose | Garden4 Gardener Lilac deriving (Show)
+-- -- Q: What is the sum of products normal form of Garden?
 
-data Garden'' = Gardenia' Gardener | Daisy' Gardener | Rose' Gardener | Lilac' Gardener deriving (Show)
+-- data Garden' = Garden1 Gardener Gardenia | Garden2 Gardener Daisy | Garden3 Gardener Rose | Garden4 Gardener Lilac deriving (Show)
 
-data GuessWhat = ChickenButt deriving (Eq, Show)
-data Id a = MkId a deriving (Eq, Show)
-data Product a b = Product a b deriving (Eq, Show) -- Represents an arbitrary product combining two types
-data Sum a b = First a | Second b deriving (Eq, Show) -- Represents an arbitrary sum with two members
-data RecordProduct a b = RecordProduct {pFirst :: a, pSecond :: b} deriving (Eq, Show)
+-- data Garden'' = Gardenia' Gardener | Daisy' Gardener | Rose' Gardener | Lilac' Gardener deriving (Show)
 
-data OperatingSystem = GnuPlusLinux | OpenBSDPlusNevermindJustBSDStill | Mac | Windows deriving (Eq, Show)
-data ProgLang = Haskell | Agda | Idris | PureScript deriving (Eq, Show)
+-- data GuessWhat = ChickenButt deriving (Eq, Show)
+-- data Id a = MkId a deriving (Eq, Show)
+-- data Product a b = Product a b deriving (Eq, Show) -- Represents an arbitrary product combining two types
+-- data Sum a b = First a | Second b deriving (Eq, Show) -- Represents an arbitrary sum with two members
+-- data RecordProduct a b = RecordProduct {pFirst :: a, pSecond :: b} deriving (Eq, Show)
 
-data Programmer = Programmer {os :: OperatingSystem, lang :: ProgLang} deriving (Eq, Show)
+-- data OperatingSystem = GnuPlusLinux | OpenBSDPlusNevermindJustBSDStill | Mac | Windows deriving (Eq, Show)
+-- data ProgLang = Haskell | Agda | Idris | PureScript deriving (Eq, Show)
 
-allOperatingSystems :: [OperatingSystem]
-allOperatingSystems = [GnuPlusLinux, OpenBSDPlusNevermindJustBSDStill, Mac, Windows]
+-- data Programmer = Programmer {os :: OperatingSystem, lang :: ProgLang} deriving (Eq, Show)
 
-allLanguages :: [ProgLang]
-allLanguages = [Haskell, Agda, Idris, PureScript]
+-- allOperatingSystems :: [OperatingSystem]
+-- allOperatingSystems = [GnuPlusLinux, OpenBSDPlusNevermindJustBSDStill, Mac, Windows]
 
-allProgrammers :: [Programmer]
-allProgrammers = [Programmer os lang | os <- allOperatingSystems, lang <- allLanguages]
+-- allLanguages :: [ProgLang]
+-- allLanguages = [Haskell, Agda, Idris, PureScript]
 
-data Automobile = Null | Car'' {make :: String, model :: String, year :: Integer} deriving (Eq, Show)
+-- allProgrammers :: [Programmer]
+-- allProgrammers = [Programmer os lang | os <- allOperatingSystems, lang <- allLanguages]
 
--- This becomes possible
-aCarModel :: String
-aCarModel = model Null
+-- data Automobile = Null | Car'' {make :: String, model :: String, year :: Integer} deriving (Eq, Show)
+
+-- -- This becomes possible
+-- aCarModel :: String
+-- aCarModel = model Null
 
 data BinaryTree a = Leaf | Node a (BinaryTree a) (BinaryTree a) deriving (Eq, Show)
 
-insert' :: (Ord a) => a -> BinaryTree a -> BinaryTree a
-insert' a Leaf = Node a Leaf Leaf
-insert' a bTree@(Node a' left right)
-  | a == a' = bTree
-  | a > a' = Node a left (insert' a right)
-  | a < a' =
-      Node
-        a
-        (insert' a left)
-        right
+-- insert' :: (Ord a) => a -> BinaryTree a -> BinaryTree a
+-- insert' a Leaf = Node a Leaf Leaf
+-- insert' a bTree@(Node a' left right)
+--   | a == a' = bTree
+--   | a > a' = Node a left (insert' a right)
+--   | a < a' =
+--       Node
+--         a
+--         (insert' a left)
+--         right
 
 mapTree :: (a -> b) -> BinaryTree a -> BinaryTree b
 mapTree _ Leaf = Leaf
@@ -197,3 +200,35 @@ foldrTree'' f b tree = foldr f b (preOrder tree)
 
 foldrTree''' :: (a -> b -> b) -> b -> BinaryTree a -> b
 foldrTree''' f b tree = foldr f b (postOrder tree)
+
+isSubseqOf :: (Eq a) => [a] -> [a] -> Bool
+isSubseqOf [] _ = True
+isSubseqOf _ [] = False
+isSubseqOf potentialSubSeq@(a : as) (b : bs)
+  | a == b = isSubseqOf as bs
+  | otherwise = isSubseqOf potentialSubSeq bs
+
+isSubseqImplCorrect :: Bool
+isSubseqImplCorrect = [isSubseqOf "blah" "blahwoot", isSubseqOf "blah" "wootblah", isSubseqOf "blah" "wboloath", isSubseqOf "blah" "wootbla", isSubseqOf "blah" "halbwoot", isSubseqOf "blah" "blawhoot"] == [True, True, True, False, False, True]
+
+capitalizeWords :: String -> [(String, String)]
+capitalizeWords = map capitalizeWord' . words
+ where
+  capitalizeWord' [] = ("", "")
+  capitalizeWord' originalWord@(firstLetter : restOfWord) = (originalWord, toUpper firstLetter : restOfWord)
+
+capitalizeWord :: String -> String
+capitalizeWord [] = []
+capitalizeWord (firstLetter : restOfWord) = toUpper firstLetter : restOfWord
+
+splitWhen :: (Char -> Bool) -> String -> [String]
+splitWhen pred' s = case dropWhile pred' s of
+  "" -> []
+  s' -> w : splitWhen pred' s''
+   where
+    (w, s'') = break pred' s'
+
+capitalizeParagraphs :: String -> String
+capitalizeParagraphs = intercalate ". " . map (capitalizeWord . leftTrim) . splitWhen (== '.')
+ where
+  leftTrim = dropWhile isSpace

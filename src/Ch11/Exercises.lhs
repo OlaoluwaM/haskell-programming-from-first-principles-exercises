@@ -172,7 +172,7 @@ Exercises : Logic goats
 
 $$
 \begin{code}
-newtype Foo = Foo (Int, String) deriving (Show, Eq, Ord)
+data Foo = Foo (Int, String) deriving (Show, Eq, Ord)
 
 instance TooMany Foo where
   tooMany :: Foo -> Bool
@@ -402,4 +402,76 @@ Multiple Choice
 2. c
 3. b
 4. c
-5.
+
+As-patterns
+==================
+
+Use as-patterns to implement the following functions:
+
+1. This should return True if (and only if) all the values in the first list
+appear in the second list, though they need not be contiguous:
+
+$$
+\begin{code}
+isSubseqOf :: (Eq a) => [a] -> [a] -> Bool
+isSubseqOf [] _ = True
+isSubseqOf _ [] = False
+isSubseqOf potentialSubSeq@(a : as) (b : bs)
+  | a == b = isSubseqOf as bs
+  | otherwise = isSubseqOf potentialSubSeq bs
+\end{code}
+$$
+
+2. Split a sentence into words, then tuple each one with its capital-
+ized form:
+
+$$
+\begin{code}
+capitalizeWords :: String -> [(String, String)]
+capitalizeWords = map capitalizeWord' . words
+ where
+  capitalizeWord' [] = ("", "")
+  capitalizeWord' originalWord@(firstLetter : restOfWord) = (originalWord, toUpper firstLetter : restOfWord)
+\end{code}
+$$
+
+Language Exercises
+==================
+
+1. Write a function that capitalizes a word:
+
+$$
+\begin{code}
+capitalizeWord :: String -> String
+capitalizeWord [] = []
+capitalizeWord (firstLetter : restOfWord) = toUpper firstLetter : restOfWord
+\end{code}
+$$
+
+2. Write a function that capitalizes sentences in a paragraph. Recognize when a new sentence has begun by checking for periods. Reuse the capitalizeWord function:
+
+$$
+\begin{code}
+splitWhen :: (Char -> Bool) -> String -> [String]
+splitWhen pred' s = case dropWhile pred' s of
+  "" -> []
+  s' -> w : splitWhen pred' s''
+   where
+    (w, s'') = break pred' s'
+
+capitalizeParagraphs :: String -> String
+capitalizeParagraphs = intercalate ". " . map (capitalizeWord . leftTrim) . splitWhen (== '.')
+ where
+  leftTrim = dropWhile isSpace
+\end{code}
+$$
+
+Phone Exercise
+==================
+
+src/Ch11/Phone.hs
+
+Hutton's Razor
+==================
+
+src/Ch11/HuttonsRazor.hs

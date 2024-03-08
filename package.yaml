@@ -45,6 +45,7 @@ library:
     - Ch11.Phone
     - Ch11.PhoneAlt
     - Ch9.Cipher
+    - Ch12.Playground
     - Lib
 
   other-modules: []

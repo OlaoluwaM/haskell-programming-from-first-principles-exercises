@@ -5,6 +5,7 @@ module Ch12.Playground where
 import Data.Char (isUpperCase)
 
 import Data.Bool (bool)
+import Data.Either (fromLeft, isLeft, partitionEithers)
 
 vowels :: String
 vowels = "aeiou"
@@ -78,3 +79,88 @@ integerToNat n
   | n == 0 = Just Zero
   | n > 0 = Just Succ <*> integerToNat (n - 1)
   | otherwise = Nothing
+
+isJust :: Maybe a -> Bool
+isJust Nothing = False
+isJust (Just _) = True
+
+isNothing :: Maybe a -> Bool
+isNothing = not . isJust
+
+-- mayyybee :: b -> (a -> b) -> Maybe a -> b
+-- mayyybee defaultVal f ma = case ma of
+--   Just a -> f a
+--   Nothing -> defaultVal
+
+fromMaybe :: a -> Maybe a -> a
+fromMaybe fallbackVal = maybe fallbackVal id
+
+listToMaybe :: [a] -> Maybe a
+listToMaybe [] = Nothing
+listToMaybe (x : _) = Just x
+
+maybeToList :: Maybe a -> [a]
+maybeToList Nothing = []
+maybeToList (Just a) = [a]
+
+catMaybes :: [Maybe a] -> [a]
+catMaybes [] = []
+catMaybes mas = map (fromMaybe undefined) $ filter isJust mas
+
+flipMaybe :: [Maybe a] -> Maybe [a]
+flipMaybe = foldr (\ma -> (<*>) ((:) <$> ma)) (Just [])
+
+flipMaybe' :: [Maybe a] -> Maybe [a]
+flipMaybe' [] = Just []
+flipMaybe' (ma : mas) = ((:) <$> ma) <*> flipMaybe mas
+
+lefts :: [Either a b] -> [a]
+lefts = fst . partitionEithers
+
+lefts' :: [Either a b] -> [a]
+lefts' = foldr foldFn []
+ where
+  foldFn (Left a) b = a : b
+  foldFn (Right _) b = b
+
+lefts'' :: [Either a b] -> [a]
+lefts'' x = [a | Left a <- x]
+
+rights :: [Either a b] -> [b]
+rights = snd . partitionEithers
+
+rights' :: [Either a b] -> [b]
+rights' = foldr foldFn []
+ where
+  foldFn (Right b) b' = b : b'
+  foldFn (Left _) b = b
+
+rights'' :: [Either a b] -> [b]
+rights'' x = [b | Right b <- x]
+
+partitionEithers' :: [Either a b] -> ([a], [b])
+partitionEithers' = foldr foldFn ([], [])
+ where
+  foldFn (Left a) (leftsL, rightsL) = (a : leftsL, rightsL)
+  foldFn (Right b) (leftsL, rightsL) = (leftsL, b : rightsL)
+
+eitherMaybe' :: (b -> c) -> Either a b -> Maybe c
+eitherMaybe' f = \case
+  Right b -> Just (f b)
+  Left _ -> Nothing
+
+either' :: (a -> c) -> (b -> c) -> Either a b -> c
+either' lF lR = \case
+  Left a -> lF a
+  Right b -> lR b
+
+eitherMaybe'' :: (b -> c) -> Either a b -> Maybe c
+eitherMaybe'' f = either' (const Nothing) (Just . f)
+
+myIterate :: (a -> a) -> a -> [a]
+myIterate f a = a : myIterate f (f a)
+
+myUnfoldr :: (b -> Maybe (a, b)) -> b -> [a]
+myUnfoldr f b = case f b of
+  Just (a, b') -> a : myUnfoldr f b'
+  Nothing -> []

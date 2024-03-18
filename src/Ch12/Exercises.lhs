@@ -254,3 +254,29 @@ Write your own iterate and unfoldr
 > myUnfoldr f b = case f b of
 >   Just (a, b') -> a : myUnfoldr f b'
 >   Nothing -> []
+
+3 . Rewrite myIterate into betterIterate using myUnfoldr . A hint — we use unfoldr to produce the same results as iterate above . Do this with different functions, and see if you can abstract the structure out. It helps to have the types in front of you:
+
+> betterIterate :: (a -> a) -> a -> [a]
+> betterIterate f = myUnfoldr (\b -> Just (b, f b))
+
+Finally something other than a list
+=====================
+
+> data BinaryTree a = Leaf | Node a (BinaryTree a) (BinaryTree a) deriving (Eq, Show)
+
+1. Write unfold for BinaryTree:
+
+> unfoldTree :: (a -> Maybe (a, b, a)) -> a -> BinaryTree b
+> unfoldTree f a = case f a of
+>   Just (a', b, a'') -> Node b (unfoldTree f a') (unfoldTree f a'')
+>   Nothing -> Leaf
+
+2. Make a tree builder.
+
+> treeBuild :: Integer -> BinaryTree Integer
+> treeBuild n = unfoldTree (f n) 0
+>  where
+>   f n' a
+>     | a == n' = Nothing
+>     | otherwise = Just (a + 1, a, a + 1)

@@ -164,3 +164,20 @@ myUnfoldr :: (b -> Maybe (a, b)) -> b -> [a]
 myUnfoldr f b = case f b of
   Just (a, b') -> a : myUnfoldr f b'
   Nothing -> []
+
+betterIterate :: (a -> a) -> a -> [a]
+betterIterate f = myUnfoldr (\b -> Just (b, f b))
+
+data BinaryTree a = Leaf | Node a (BinaryTree a) (BinaryTree a) deriving (Eq, Show)
+
+unfoldTree :: (a -> Maybe (a, b, a)) -> a -> BinaryTree b
+unfoldTree f a = case f a of
+  Just (a', b, a'') -> Node b (unfoldTree f a') (unfoldTree f a'')
+  Nothing -> Leaf
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild n = unfoldTree (f n) 0
+  where
+    f n' a
+      | a == n' = Nothing
+      | otherwise = Just (a + 1, a, a + 1)

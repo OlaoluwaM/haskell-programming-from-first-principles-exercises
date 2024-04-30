@@ -1,4 +1,4 @@
-module StdFunc where
+module Ch9.StdFunc where
 
 -- 1. `myOr` returns `True` if any Bool in the list is `True`
 myOr :: [Bool] -> Bool
@@ -76,10 +76,9 @@ myMinimumBy f (a : as) = case f a tailMinimum of
   tailMinimum = myMaximumBy f as
 
 -- 10. Using the myMinimumBy and myMaximumBy functions, write your own versions of maximum and minimum. If you have GHC 7.10 or newer, you’ll see a type constructor that wants a Foldable instance instead of a list, as has been the case for many functions so far
-type FnType a = (Ord a) => [a] -> a
 
-myMaximum :: FnType a
+myMaximum :: (Ord a) => [a] -> a
 myMaximum = myMaximumBy compare
 
-myMinimum :: FnType a
+myMinimum :: (Ord a) => [a] -> a
 myMinimum = myMinimumBy compare

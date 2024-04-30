@@ -1,37 +1,37 @@
-Chapter 10 Exercises
-========================
+# Chapter 10 Exercises
 
-Exercise: Understanding Folds
-=============================
+## Exercise: Understanding Folds
 
-1. $foldr (*) 1 [1..5]$ Will return the same result as which of the following?
+1. `foldr (*) 1 [1..5]` Will return the same result as which of the following?
 
-a) flip (*) 1 [1..5]
-b) foldl (flip (*)) 1 [1..5]
-c) foldl (*) 1 [1..5]
+a) `flip (*) 1 [1..5]`
+b) `foldl (flip (*)) 1 [1..5]`
+c) `foldl (*) 1 [1..5]`
 
 Answer: c & b.
 
-2. Write out the evaluation steps for: $foldl (flip (*)) 1 [1..3]$
+2. Write out the evaluation steps for: `foldl (flip (*)) 1 [1..3]`
 
-filp (*) is equivalent to (*) because multiplication is commutative
+`filp (*)` is equivalent to `(*)` because multiplication is commutative
 
+```haskell
 foldl (*) 1 [1, 2, 3]
-foldl (*) (1 * 1) [2, 3]
+foldl (*) (1 *1) [2, 3]
 foldl (*) ((1 * 1) * 2) [3]
-foldl (*) (((1 * 1) * 2) * 3) []
-(((1 * 1) * 2) * 3)
-((1 * 2) * 3)
-(2 * 3)
+foldl (*) (((1* 1) *2)* 3) []
+(((1 *1)* 2) *3)
+((1* 2) *3)
+(2* 3)
 6
+```
 
-3. One difference between foldr and foldl is:
+3. One difference between `foldr` and `foldl` is:
 
-a) foldr, but not foldl, traverses the spine of a list from right
+a) `foldr`, but not `foldl`, traverses the spine of a list from right
 to left.
-b) foldr, but not foldl, always forces the rest of the fold.
-c) foldr, but not foldl, associates to the right.
-d) foldr, but not foldl, is recursive.
+b) `foldr`, but not `foldl`, always forces the rest of the fold.
+c) `foldr`, but not `foldl`, associates to the right.
+d) `foldr`, but not `foldl`, is recursive.
 
 Answer: c.
 
@@ -47,65 +47,61 @@ Answer: a.
 5.The following are simple folds very similar to what you’ve already seen, but each has at least one error. Please fix and test
 them in your REPL:
 
-> foldr (++) ["woot", "WOOT", "woot"]
-> foldr (++) "" ["woot", "WOOT", "woot"]
+```haskell
+foldr (++) ["woot", "WOOT", "woot"]
+foldr (++) "" ["woot", "WOOT", "woot"]
 
-> foldr max "fear is the little death"
-> foldr max 'a' "fear is the little death"
+foldr max "fear is the little death"
+foldr max 'a' "fear is the little death"
 
-> foldr and True [False, True]
-> foldr (&&) True [False, True]
+foldr and True [False, True]
+foldr (&&) True [False, True]
 
-> foldr (||) True [False, True]
-> foldr (||) False [False, True]
+foldr (||) True [False, True]
+foldr (||) False [False, True]
 
-> foldl ((++) . show) "" [1..5]
-> foldr ((++) . show) "" [1..5]
+foldl ((++) . show) "" [1..5]
+foldr ((++) . show) "" [1..5]
 
-> foldr const 'a' [1..5]
-> foldr (flip const) 'a' [1..5]
-> foldl const 'a' [1..5]
+foldr const 'a' [1..5]
+foldr (flip const) 'a' [1..5]
+foldl const 'a' [1..5]
 
-> foldr const 0 "tacos"
-> foldr (flip const) 0 "tacos"
-> foldl const 0 "tacos"
+foldr const 0 "tacos"
+foldr (flip const) 0 "tacos"
+foldl const 0 "tacos"
 
-> foldl (flip const) 0 "burritos"
-> foldl const 0 "burritos"
-> foldr (flip const) 0 "burritos"
+foldl (flip const) 0 "burritos"
+foldl const 0 "burritos"
+foldr (flip const) 0 "burritos"
 
-> foldl (flip const) 'z' [1..5]
-> foldl const 'z' [1..5]
-> foldr (flip const) 'z' [1..5]
+foldl (flip const) 'z' [1..5]
+foldl const 'z' [1..5]
+foldr (flip const) 'z' [1..5]
+```
 
-Exercise : Database Processing
-==============================
+## Exercise : Database Processing
 
-$$
-\begin{code}
+```haskell
 import Data.Time
 
 data DatabaseItem = DbString String | DbNumber Integer | DbDate UTCTime deriving (Eq, Ord, Show)
 
 theDatabase :: [DatabaseItem]
 theDatabase = [DbDate (UTCTime (fromGregorian 1911 5 1) (secondsToDiffTime 34123)), DbNumber 9001, DbString "Hello, world!", DbDate (UTCTime (fromGregorian 1921 5 1) (secondsToDiffTime 34123))]
-
-\end{code}
-$$
+```
 
 1. Write a function that filters for $DbDate$ values and returns a list of the $UTCTime$ values inside them:
 
-$$
-\begin{code}
+```haskell
 filterDbDate :: [DatabaseItem] -> [UTCTime]
 filterDbDate = foldr getDates []
  where
   getDates (DbDate date) acc = date : acc
   getDates _ acc = acc
-\end{code}
-$$
+```
 
-2. Write a function that filters for $DbNumber$ values and returns a list of the Integer values inside them:
+1. Write a function that filters for $DbNumber$ values and returns a list of the Integer values inside them:
 
 $$
 \begin{code}
@@ -143,7 +139,6 @@ avgDb :: [DatabaseItem] -> Double
 avgDb dbIs = let dbNums = filterDbNumber dbIs in fromIntegral (fromInteger (sum dbNums) `div` length dbNums)
 \end{code}
 $$
-
 
 Scan Exercises
 ==============
@@ -257,19 +252,19 @@ Rewriting functions using folds
 10. $myMaximumBy$ takes a comparison function and a list and returns the greatest element of the list based on the last value that the comparison returns GT for:
 
 > myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
-> myMaximumBy _ [x] = x
+> myMaximumBy _[x] = x
 > myMaximumBy compareFn (x : xs) = case compareFn x tailMax of
->   GT -> x
->   _ -> tailMax
->  where
->   tailMax = myMaximumBy compareFn xs
+> GT -> x
+>_ -> tailMax
+> where
+> tailMax = myMaximumBy compareFn xs
 
 11. $myMinimumBy$ takes a comparison function and a list and returns the least element of the list based on the last value that the comparison returns LT for:
 
 > myMinimumBy :: (a -> a -> Ordering) -> [a] -> a
-> myMinimumBy _ [x] = x
+> myMinimumBy _[x] = x
 > myMinimumBy compareFn (x : xs) = case compareFn x tailMin of
->   LT -> x
->   _ -> tailMin
->  where
->   tailMin = myMinimumBy compareFn xs
+> LT -> x
+>_ -> tailMin
+> where
+> tailMin = myMinimumBy compareFn xs

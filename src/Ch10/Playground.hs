@@ -1,4 +1,4 @@
-module Playground where
+module Ch10.Playground where
 
 import Data.Foldable (Foldable (foldl'))
 import Data.Time
@@ -135,5 +135,5 @@ myMinimumBy compareFn (x : xs) = case compareFn x tailMin of
 squishMap'' :: (Foldable t) => (a1 -> [a2]) -> t a1 -> [a2]
 squishMap'' f = foldr (f >>> (++)) []
 
-squishMap''' :: (Foldable t) => (a1 -> [a2]) -> t a1 -> [a2]
-squishMap''' f = foldl ((++) . f) []
+-- squishMap''' :: (Foldable t) => (a1 -> [a2]) -> t a1 -> [a2]
+-- squishMap''' f = foldl ((++) . f) []

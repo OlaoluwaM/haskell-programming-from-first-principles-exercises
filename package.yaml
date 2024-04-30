@@ -39,16 +39,15 @@ ghc-options:
 
 library:
   source-dirs: src
-
+  dependencies:
+    - random
+    - time
+    - PyF
+    - containers
+    - hspec
+    - QuickCheck
   exposed-modules:
-    - Ch11.Cipher
-    - Ch11.Phone
-    - Ch11.PhoneAlt
-    - Ch9.Cipher
-    - Ch12.Playground
-    - Lib
-
-  other-modules: []
+    - Ch14.Addition
 
 executables:
   haskell-from-first-principles-exercies-exe:

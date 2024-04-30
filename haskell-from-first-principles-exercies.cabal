@@ -25,12 +25,27 @@ source-repository head
 
 library
   exposed-modules:
+      Ch14.Addition
+  other-modules:
+      Ch10.Playground
       Ch11.Cipher
+      Ch11.HuttonsRazor
       Ch11.Phone
       Ch11.PhoneAlt
-      Ch9.Cipher
+      Ch11.Playground
       Ch12.Playground
+      Ch13.Person
+      Ch13.Playground
+      Ch14.Morse
+      Ch14.Playground
+      Ch8.Playground
+      Ch9.Cipher
+      Ch9.Playground
+      Ch9.StdFunc
       Lib
+      Paths_haskell_from_first_principles_exercies
+  autogen-modules:
+      Paths_haskell_from_first_principles_exercies
   hs-source-dirs:
       src
   default-extensions:
@@ -38,7 +53,13 @@ library
       LambdaCase
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      base >=4.7 && <5
+      PyF
+    , QuickCheck
+    , base >=4.7 && <5
+    , containers
+    , hspec
+    , random
+    , time
   default-language: Haskell2010
 
 executable haskell-from-first-principles-exercies-exe

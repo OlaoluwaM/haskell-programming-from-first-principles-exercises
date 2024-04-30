@@ -1,4 +1,4 @@
-module Playground where
+module Ch8.Playground (dividedBy, recursiveMult) where
 
 import Data.Char (isSpace)
 import Data.List (intercalate, intersperse)
@@ -32,7 +32,7 @@ type Quotient = Integer
 type Remainder = Integer
 
 dividedBy :: Numerator -> Denominator -> Maybe (Quotient, Remainder)
-dividedBy n 0 = Nothing
+dividedBy _ 0 = Nothing
 dividedBy n d
   | integerIsNegative n && integerIsNegative d = Just $ go (abs n) (abs d) 0
   | integerIsNegative n || integerIsNegative d = Just $ fstMap (* (-1)) (go (abs n) (abs d) 0)

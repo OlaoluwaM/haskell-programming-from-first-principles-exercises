@@ -1,4 +1,4 @@
-module Ch11.Cipher where
+module Ch11.Cipher (vigenereCipher, CaesarCipher.cipherMsg) where
 
 import Ch9.Cipher qualified as CaesarCipher
 

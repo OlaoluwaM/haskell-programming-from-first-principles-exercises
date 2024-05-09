@@ -1,18 +1,16 @@
 module Ch14.Morse where
 
 import Control.Monad (forever, when)
-import Data.List (intercalate)
 import Data.Map (Map)
 import Data.Map qualified as Map
-import Data.Traversable (traverse)
 import System.Environment (getArgs)
 import System.Exit (exitFailure, exitSuccess)
-import System.IO (hGetLine, hIsEOF, isEOF, stdin)
+import System.IO (isEOF)
 
-newtype Morse = MorseCode String deriving (Eq, Show, Ord)
+newtype Morse = MorseCode {morseString :: String} deriving (Eq, Show, Ord)
 
-letterToMorse :: Map Char Morse
-letterToMorse =
+letterToMorseMap :: Map Char Morse
+letterToMorseMap =
   Map.fromList $
     (MorseCode <$>)
       <$> [ ('a', ".-")
@@ -53,17 +51,17 @@ letterToMorse =
           , ('0', "-----")
           ]
 
-morseToLetter :: Map Morse Char
-morseToLetter = Map.foldrWithKey (flip Map.insert) Map.empty letterToMorse
+morseToLetterMap :: Map Morse Char
+morseToLetterMap = Map.foldrWithKey (flip Map.insert) Map.empty letterToMorseMap
 
 charToMorse :: Char -> Maybe Morse
-charToMorse = flip Map.lookup letterToMorse
+charToMorse = flip Map.lookup letterToMorseMap
+
+morseToChar :: Morse -> Maybe Char
+morseToChar = flip Map.lookup morseToLetterMap
 
 stringToMorse :: String -> Maybe [Morse]
 stringToMorse = mapM charToMorse
-
-morseToChar :: Morse -> Maybe Char
-morseToChar = flip Map.lookup morseToLetter
 
 convertToMorse :: IO ()
 convertToMorse = forever $ do
@@ -76,5 +74,36 @@ convertToMorse = forever $ do
   convertLine line = do
     let morse = stringToMorse line
     case morse of
-      (Just (MorseCode str)) -> putStrLn $ intercalate " " str
-      Nothing -> putStrLn $ "Error: " ++ line >> exitFailure
+      (Just morseCodes) -> let morseStrings = morseString <$> morseCodes in putStrLn $ unwords morseStrings
+      Nothing -> putStrLn ("Error: " <> line) >> exitFailure
+
+convertFromMorse :: IO ()
+convertFromMorse = do
+  endOfData <- isEOF
+  when endOfData exitSuccess
+
+  line <- getLine
+  convertLine line
+ where
+  convertLine line = do
+    let decodedMorse = traverse (morseToChar . MorseCode) (words line)
+    case decodedMorse of
+      (Just str) -> putStrLn str
+      Nothing -> putStrLn ("Error: " <> line) >> exitFailure
+
+main :: IO ()
+main = do
+  mode <- getArgs
+  case mode of
+    ["from"] -> convertFromMorse
+    ["to"] -> convertToMorse
+    _ -> argError
+ where
+  argError =
+    putStrLn
+      "Please specify the\
+      \ first argument\
+      \ as being 'from' or\
+      \ 'to' morse,\
+      \ such as: morse to"
+      >> exitFailure

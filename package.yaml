@@ -1,6 +1,6 @@
-name: haskell-from-first-principles-exercies
+name: hffp
 version: 0.1.0.0
-github: "githubuser/haskell-from-first-principles-exercies"
+github: "OlaoluwaM/haskell-from-first-principles-exercises"
 license: BSD-3-Clause
 author: "Author name here"
 maintainer: "example@example.com"
@@ -17,7 +17,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description: Please see the README on GitHub at <https://github.com/githubuser/haskell-from-first-principles-exercies#readme>
+description: Please see the README on GitHub at <https://github.com/OlaoluwaM/haskell-from-first-principles-exercises#readme>
 
 dependencies:
   - base >= 4.7 && < 5
@@ -48,9 +48,11 @@ library:
     - QuickCheck
   exposed-modules:
     - Ch14.Addition
+    - Ch14.Morse
+    - Ch8.Playground
 
 executables:
-  haskell-from-first-principles-exercies-exe:
+  hffp:
     main: Main.hs
     source-dirs: app
     ghc-options:
@@ -58,10 +60,10 @@ executables:
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
-      - haskell-from-first-principles-exercies
+      - hffp
 
 tests:
-  haskell-from-first-principles-exercies-test:
+  hffp-test:
     main: Spec.hs
     source-dirs: test
     ghc-options:
@@ -69,4 +71,7 @@ tests:
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
-      - haskell-from-first-principles-exercies
+      - hffp
+      - hspec
+      - QuickCheck
+      - containers

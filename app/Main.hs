@@ -1,4 +1,6 @@
 module Main (main) where
 
+import Ch14.Morse qualified
+
 main :: IO ()
-main = putStrLn "Hi"
+main = Ch14.Morse.main

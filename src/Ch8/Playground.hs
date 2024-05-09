@@ -1,4 +1,4 @@
-module Ch8.Playground (dividedBy, recursiveMult) where
+module Ch8.Playground where
 
 import Data.Char (isSpace)
 import Data.List (intercalate, intersperse)

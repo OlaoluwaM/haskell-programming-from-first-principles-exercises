@@ -13,8 +13,8 @@ newtype AlphaChar = AlphaChar {unAlphaChar :: Char} deriving (Eq, Show)
 
 genAlphaChar :: Gen AlphaChar
 genAlphaChar = do
-  let upperCaseAlphaRange = (65, 90)
-  let lowerCaseAlphaRange = (97, 122)
+  let upperCaseAlphaRange = (ord 'A', ord 'Z')
+  let lowerCaseAlphaRange = (ord 'a', ord 'z')
   charCode <- oneof [chooseInt upperCaseAlphaRange, chooseInt lowerCaseAlphaRange]
 
   pure $ AlphaChar $ chr charCode

@@ -1,4 +1,4 @@
-module Ch11.Cipher (vigenereCipher, CaesarCipher.cipherMsg) where
+module Ch11.Cipher (vigenereCipher, CaesarCipher.cipherMsg, vigenereUncipher) where
 
 import Ch9.Cipher qualified as CaesarCipher
 
@@ -9,11 +9,11 @@ type Message = String
 type CipherText = String
 
 ceilingDivision :: Int -> Int -> Int
-ceilingDivision num1 num2 = ceiling . fromIntegral $ div num1 num2
+ceilingDivision num1 num2 = (ceiling @Double) . fromIntegral $ div num1 num2
 
 standardizeKeywordLength :: Keyword -> Message -> String
 standardizeKeywordLength keyword msg
-  | length keyword < length msg = let replicateCount = ceilingDivision (length msg) (length keyword) in concat $ replicate replicateCount keyword
+  | length keyword < length msg = let replicateCount = ceilingDivision (length msg) (length keyword) in concat $ replicate (replicateCount + 1) keyword
   | otherwise = keyword
 
 zipWithSpaces :: String -> String -> [(Char, Char)]

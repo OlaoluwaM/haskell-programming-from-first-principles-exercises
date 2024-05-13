@@ -28,9 +28,10 @@ library
       Ch14.Addition
       Ch14.Morse
       Ch8.Playground
+      Ch11.Cipher
+      Ch9.Cipher
   other-modules:
       Ch10.Playground
-      Ch11.Cipher
       Ch11.HuttonsRazor
       Ch11.Phone
       Ch11.PhoneAlt
@@ -38,7 +39,6 @@ library
       Ch12.Playground
       Ch13.Person
       Ch13.Playground
-      Ch9.Cipher
       Ch9.Playground
       Ch9.StdFunc
       Lib
@@ -50,6 +50,7 @@ library
   default-extensions:
       ImportQualifiedPost
       LambdaCase
+      TypeApplications
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       PyF
@@ -72,6 +73,7 @@ executable hffp
   default-extensions:
       ImportQualifiedPost
       LambdaCase
+      TypeApplications
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
@@ -82,6 +84,7 @@ test-suite hffp-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Ch14.CipherSpec
       Ch14.ExerciseSpec
       Ch14.Identity
       Ch14.MorseSpec
@@ -95,6 +98,7 @@ test-suite hffp-test
   default-extensions:
       ImportQualifiedPost
       LambdaCase
+      TypeApplications
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck

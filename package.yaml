@@ -25,6 +25,7 @@ dependencies:
 default-extensions:
   - ImportQualifiedPost
   - LambdaCase
+  - TypeApplications
 
 ghc-options:
   - -Wall
@@ -50,6 +51,8 @@ library:
     - Ch14.Addition
     - Ch14.Morse
     - Ch8.Playground
+    - Ch11.Cipher
+    - Ch9.Cipher
 
 executables:
   hffp:

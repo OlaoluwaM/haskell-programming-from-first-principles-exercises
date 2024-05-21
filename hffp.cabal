@@ -39,6 +39,9 @@ library
       Ch12.Playground
       Ch13.Person
       Ch13.Playground
+      Ch15.Listy
+      Ch15.ListyInstances
+      Ch15.Playground
       Ch9.Playground
       Ch9.StdFunc
       Lib

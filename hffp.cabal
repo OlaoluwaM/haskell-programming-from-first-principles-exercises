@@ -1,27 +1,18 @@
-cabal-version: 2.2
+cabal-version: 1.12
 
 -- This file has been generated from package.yaml by hpack version 0.36.0.
 --
 -- see: https://github.com/sol/hpack
 
 name:           hffp
-version:        0.1.0.0
+version:        0.0.0
 description:    Please see the README on GitHub at <https://github.com/OlaoluwaM/haskell-from-first-principles-exercises#readme>
-homepage:       https://github.com/OlaoluwaM/haskell-from-first-principles-exercises#readme
-bug-reports:    https://github.com/OlaoluwaM/haskell-from-first-principles-exercises/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2024 Author name here
-license:        BSD-3-Clause
+license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
     CHANGELOG.md
-
-source-repository head
-  type: git
-  location: https://github.com/OlaoluwaM/haskell-from-first-principles-exercises
 
 library
   exposed-modules:
@@ -39,15 +30,14 @@ library
       Ch12.Playground
       Ch13.Person
       Ch13.Playground
+      Ch15.Bull
       Ch15.Listy
       Ch15.ListyInstances
       Ch15.Playground
+      Ch15.Semigroups
       Ch9.Playground
       Ch9.StdFunc
       Lib
-      Paths_hffp
-  autogen-modules:
-      Paths_hffp
   hs-source-dirs:
       src
   default-extensions:
@@ -58,7 +48,7 @@ library
   build-depends:
       PyF
     , QuickCheck
-    , base >=4.7 && <5
+    , base
     , containers
     , hspec
     , random
@@ -67,10 +57,6 @@ library
 
 executable hffp
   main-is: Main.hs
-  other-modules:
-      Paths_hffp
-  autogen-modules:
-      Paths_hffp
   hs-source-dirs:
       app
   default-extensions:
@@ -79,7 +65,7 @@ executable hffp
       TypeApplications
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      base
     , hffp
   default-language: Haskell2010
 
@@ -93,9 +79,6 @@ test-suite hffp-test
       Ch14.MorseSpec
       Ch14.Trivial
       Ch8.WordNumberSpec
-      Paths_hffp
-  autogen-modules:
-      Paths_hffp
   hs-source-dirs:
       test
   default-extensions:
@@ -105,7 +88,7 @@ test-suite hffp-test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck
-    , base >=4.7 && <5
+    , base
     , containers
     , hffp
     , hspec

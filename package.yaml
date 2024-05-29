@@ -1,10 +1,5 @@
 name: hffp
-version: 0.1.0.0
-github: "OlaoluwaM/haskell-from-first-principles-exercises"
-license: BSD-3-Clause
-author: "Author name here"
-maintainer: "example@example.com"
-copyright: "2024 Author name here"
+spec-version: 0.36.0
 
 extra-source-files:
   - README.md
@@ -20,7 +15,7 @@ extra-source-files:
 description: Please see the README on GitHub at <https://github.com/OlaoluwaM/haskell-from-first-principles-exercises#readme>
 
 dependencies:
-  - base >= 4.7 && < 5
+  - base
 
 default-extensions:
   - ImportQualifiedPost

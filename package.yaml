@@ -42,12 +42,6 @@ library:
     - containers
     - hspec
     - QuickCheck
-  exposed-modules:
-    - Ch14.Addition
-    - Ch14.Morse
-    - Ch8.Playground
-    - Ch11.Cipher
-    - Ch9.Cipher
 
 executables:
   hffp:

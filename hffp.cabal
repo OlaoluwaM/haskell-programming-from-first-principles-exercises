@@ -16,13 +16,8 @@ extra-source-files:
 
 library
   exposed-modules:
-      Ch14.Addition
-      Ch14.Morse
-      Ch8.Playground
-      Ch11.Cipher
-      Ch9.Cipher
-  other-modules:
       Ch10.Playground
+      Ch11.Cipher
       Ch11.HuttonsRazor
       Ch11.Phone
       Ch11.PhoneAlt
@@ -30,11 +25,15 @@ library
       Ch12.Playground
       Ch13.Person
       Ch13.Playground
+      Ch14.Addition
+      Ch14.Morse
       Ch15.Bull
+      Ch15.Exercise
       Ch15.Listy
       Ch15.ListyInstances
       Ch15.Playground
-      Ch15.Semigroups
+      Ch8.Playground
+      Ch9.Cipher
       Ch9.Playground
       Ch9.StdFunc
       Lib
@@ -78,6 +77,7 @@ test-suite hffp-test
       Ch14.Identity
       Ch14.MorseSpec
       Ch14.Trivial
+      Ch15.ExerciseSpec
       Ch8.WordNumberSpec
   hs-source-dirs:
       test

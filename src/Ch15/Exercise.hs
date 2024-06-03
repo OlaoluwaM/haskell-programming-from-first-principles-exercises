@@ -100,6 +100,9 @@ newtype Combine a b = Combine {unCombine :: a -> b}
 instance (Semigroup b) => Semigroup (Combine a b) where
     (Combine f) <> (Combine g) = Combine $ \n -> f n <> g n
 
+instance (Monoid b) => Monoid (Combine a b) where
+    mempty = Combine $ const mempty
+
 instance (CoArbitrary a, Arbitrary b) => Arbitrary (Combine a b) where
     arbitrary = Combine <$> arbitrary
 
@@ -110,6 +113,9 @@ newtype Comp a = Comp {unComp :: a -> a}
 
 instance (Semigroup a) => Semigroup (Comp a) where
     (Comp f) <> (Comp g) = Comp $ f . g
+
+instance (Monoid a) => Monoid (Comp a) where
+    mempty = Comp id
 
 instance (CoArbitrary a, Arbitrary a) => Arbitrary (Comp a) where
     arbitrary = Comp <$> arbitrary

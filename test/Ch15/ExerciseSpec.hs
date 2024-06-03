@@ -17,8 +17,32 @@ compSemigroupAssocProp f g h a = unComp (f <> (g <> h)) a == unComp ((f <> g) <>
 combineSemigroupAssocProp :: (Eq b, Semigroup b) => Combine a b -> Combine a b -> Combine a b -> a -> Bool
 combineSemigroupAssocProp f g h a = unCombine (f <> (g <> h)) a == unCombine ((f <> g) <> h) a
 
+combineMonoidLeftIdentity :: (Eq b, Monoid b) => Combine a b -> a -> Bool
+combineMonoidLeftIdentity f a = unCombine (mempty <> f) a == unCombine f a
+
+combineMonoidRightIdentity :: (Eq b, Monoid b) => Combine a b -> a -> Bool
+combineMonoidRightIdentity f a = unCombine (f <> mempty) a == unCombine f a
+
+compMonoidLeftIdentity :: (Eq a, Monoid a) => Comp a -> a -> Bool
+compMonoidLeftIdentity f a = unComp (mempty <> f) a == unComp f a
+
+compMonoidRightIdentity :: (Eq a, Monoid a) => Comp a -> a -> Bool
+compMonoidRightIdentity f a = unComp (f <> mempty) a == unComp f a
+
 monoidLawsProp :: (Eq m, Monoid m) => m -> m -> m -> Bool
-monoidLawsProp a b c = semigroupAssocProp a b c && monoidLeftIdentityProp a && monoidRightIdentityProp a
+monoidLawsProp a b c = semigroupAssocProp a b c && and identityProps
+  where
+    identityProps = [monoidLeftIdentityProp, monoidRightIdentityProp] <*> [a, b, c]
+
+combineMonoidLawsProp :: (Eq b, Monoid b) => Combine a b -> Combine a b -> Combine a b -> a -> Bool
+combineMonoidLawsProp f g h a = combineSemigroupAssocProp f g h a && and identityProps
+  where
+    identityProps = [flip combineMonoidLeftIdentity a, flip combineMonoidRightIdentity a] <*> [f, g, h]
+
+compMonoidLawsProp :: (Eq a, Monoid a) => Comp a -> Comp a -> Comp a -> a -> Bool
+compMonoidLawsProp f g h a = compSemigroupAssocProp f g h a && and identityProps
+  where
+    identityProps = [flip compMonoidLeftIdentity a, flip compMonoidRightIdentity a] <*> [f, g, h]
 
 spec :: Spec
 spec = do
@@ -55,3 +79,5 @@ spec = do
         prop "Four a b c d" $ monoidLawsProp @(Four (First (Maybe String)) (Last (Maybe Bool)) All (Product Int))
         prop "BoolConj" $ monoidLawsProp @BoolConj
         prop "BoolDisj" $ monoidLawsProp @BoolDisj
+        prop "Combine a b" $ combineMonoidLawsProp @(Product Int) @Int
+        prop "Comp a" $ compMonoidLawsProp @(First Int)

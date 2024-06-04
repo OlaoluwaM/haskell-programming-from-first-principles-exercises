@@ -1,7 +1,10 @@
+{-# LANGUAGE TupleSections #-}
+
 module Ch15.Exercise where
 
 import Test.QuickCheck hiding (Failure, Success)
 
+import Data.Bifunctor (first)
 import Data.Monoid
 
 data Trivial = Trivial
@@ -84,6 +87,7 @@ instance Arbitrary BoolDisj where
 
 data Or a b = Fst a | Snd b deriving (Eq, Show)
 
+-- This type cannot have a lawful Monoid instance because there is no valid `mempty` for the semigroup operation
 instance Semigroup (Or a b) where
     b@(Snd _) <> _ = b
     _ <> b@(Snd _) = b
@@ -131,6 +135,9 @@ instance (Semigroup a) => Semigroup (Validation a b) where
     _ <> suc@(Success _) = suc
     suc@(Success _) <> _ = suc
 
+instance (Monoid a) => Monoid (Validation a b) where
+    mempty = Failure mempty
+
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Validation a b) where
     arbitrary = do
         a <- arbitrary
@@ -142,3 +149,30 @@ failure = Failure
 
 success :: Int -> Validation String Int
 success = Success
+
+newtype Mem s a = Mem {runMem :: s -> (a, s)}
+
+instance (Semigroup a) => Semigroup (Mem s a) where
+    (Mem f) <> (Mem g) = Mem $ \s -> let (fa, fs) = f s in first (fa <>) (g fs)
+
+instance (Monoid a) => Monoid (Mem s a) where
+    mempty = Mem (mempty,)
+
+instance (CoArbitrary s, Arbitrary a, Arbitrary s) => Arbitrary (Mem s a) where
+    arbitrary = Mem <$> arbitrary
+
+instance Show (Mem s a) where
+    show _ = "Mem s -> (a, s)"
+
+memTest :: IO ()
+memTest = do
+    let f' = Mem $ \s -> ("hi", s + 1)
+    let rmzero = runMem mempty 0
+        rmleft = runMem (f' <> mempty) 0
+        rmright = runMem (mempty <> f') 0
+
+    print rmleft
+    print rmright
+    print (rmzero :: (String, Int))
+    print $ rmleft == runMem f' 0
+    print $ rmright == runMem f' 0

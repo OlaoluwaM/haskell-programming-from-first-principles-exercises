@@ -17,6 +17,9 @@ compSemigroupAssocProp f g h a = unComp (f <> (g <> h)) a == unComp ((f <> g) <>
 combineSemigroupAssocProp :: (Eq b, Semigroup b) => Combine a b -> Combine a b -> Combine a b -> a -> Bool
 combineSemigroupAssocProp f g h a = unCombine (f <> (g <> h)) a == unCombine ((f <> g) <> h) a
 
+memSemigroupAssocProp :: (Eq a, Eq s, Semigroup a) => Mem s a -> Mem s a -> Mem s a -> s -> Bool
+memSemigroupAssocProp f g h s = runMem (f <> (g <> h)) s == runMem ((f <> g) <> h) s
+
 combineMonoidLeftIdentity :: (Eq b, Monoid b) => Combine a b -> a -> Bool
 combineMonoidLeftIdentity f a = unCombine (mempty <> f) a == unCombine f a
 
@@ -28,6 +31,12 @@ compMonoidLeftIdentity f a = unComp (mempty <> f) a == unComp f a
 
 compMonoidRightIdentity :: (Eq a, Monoid a) => Comp a -> a -> Bool
 compMonoidRightIdentity f a = unComp (f <> mempty) a == unComp f a
+
+memMonoidLeftIdentity :: (Eq s, Eq a, Monoid a) => Mem s a -> s -> Bool
+memMonoidLeftIdentity f s = runMem (mempty <> f) s == runMem f s
+
+memMonoidRightIdentity :: (Eq s, Eq a, Monoid a) => Mem s a -> s -> Bool
+memMonoidRightIdentity f s = runMem (f <> mempty) s == runMem f s
 
 monoidLawsProp :: (Eq m, Monoid m) => m -> m -> m -> Bool
 monoidLawsProp a b c = semigroupAssocProp a b c && and identityProps
@@ -43,6 +52,11 @@ compMonoidLawsProp :: (Eq a, Monoid a) => Comp a -> Comp a -> Comp a -> a -> Boo
 compMonoidLawsProp f g h a = compSemigroupAssocProp f g h a && and identityProps
   where
     identityProps = [flip compMonoidLeftIdentity a, flip compMonoidRightIdentity a] <*> [f, g, h]
+
+memMonoidLawsProp :: (Eq s, Eq a, Monoid a) => Mem s a -> Mem s a -> Mem s a -> s -> Bool
+memMonoidLawsProp f g h s = memSemigroupAssocProp f g h s && and identityProps
+  where
+    identityProps = [flip memMonoidLeftIdentity s, flip memMonoidRightIdentity s] <*> [f, g, h]
 
 spec :: Spec
 spec = do
@@ -61,13 +75,14 @@ spec = do
         prop "Combine a b" $ combineSemigroupAssocProp @(Sum Int) @Int
         prop "Comp a" $ compSemigroupAssocProp @(Sum Int)
 
-        it "Validation a" $
+        it "Validation a b" $
             and
                 [ success 1 <> failure "blah" == Success 1
                 , failure "woot" <> failure "blah" == Failure "wootblah"
                 , success 1 <> success 2 == Success 1
                 , failure "woot" <> success 2 == Success 2
                 ]
+
     describe "Monoid Laws tests for datatypes" $ do
         prop "Trivial" $ monoidLawsProp @Trivial
         prop "Identity a" $ monoidLawsProp @(Identity (Sum Int))
@@ -79,5 +94,8 @@ spec = do
         prop "Four a b c d" $ monoidLawsProp @(Four (First (Maybe String)) (Last (Maybe Bool)) All (Product Int))
         prop "BoolConj" $ monoidLawsProp @BoolConj
         prop "BoolDisj" $ monoidLawsProp @BoolDisj
+        prop "String" $ monoidLawsProp @String
         prop "Combine a b" $ combineMonoidLawsProp @(Product Int) @Int
         prop "Comp a" $ compMonoidLawsProp @(First Int)
+        prop "Validation a b" $ monoidLawsProp @(Sum Int)
+        prop "Mem s a" $ memMonoidLawsProp @Int @(Product Int)

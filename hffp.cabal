@@ -32,6 +32,9 @@ library
       Ch15.Listy
       Ch15.ListyInstances
       Ch15.Playground
+      Ch16.ExFuncInstances
+      Ch16.Playground
+      Ch16.ReplaceExperiment
       Ch8.Playground
       Ch9.Cipher
       Ch9.Playground
@@ -78,6 +81,7 @@ test-suite hffp-test
       Ch14.MorseSpec
       Ch14.Trivial
       Ch15.ExerciseSpec
+      Ch16.ExFuncInstancesSpec
       Ch8.WordNumberSpec
   hs-source-dirs:
       test

@@ -5,6 +5,8 @@ import Test.Hspec.QuickCheck
 
 import Ch16.ExFuncInstances
 
+import Data.Functor.Const
+
 functorIdentity :: (Functor f, Eq (f a)) => f a -> Bool
 functorIdentity f = fmap id f == f
 
@@ -26,3 +28,5 @@ spec = describe "Using QuickCheck to validate Functor instances (check functor l
     prop "Four a b c d" $ \fourABCD -> functorIdentity fourABCD && functorCompose (subtract 9) (* 12) (fourABCD :: Four String Int Bool Integer)
 
     prop "Four' a b" $ \fourAB' -> functorIdentity fourAB' && functorCompose (subtract 9) (* 12) (fourAB' :: Four' String Int)
+
+    prop "Const a b" $ \constant -> functorIdentity constant && functorCompose (subtract 9) (* 12) (constant :: Const String Int)

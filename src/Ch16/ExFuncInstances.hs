@@ -1,3 +1,5 @@
+{-# LANGUAGE GADTs #-}
+
 module Ch16.ExFuncInstances where
 
 import Test.QuickCheck (Arbitrary (arbitrary))
@@ -72,3 +74,10 @@ instance (Arbitrary a, Arbitrary b) => Arbitrary (Four' a b) where
 
 -- No functor instance for this type constant because it is of kind `Type`
 data Trivial = Trivial
+
+data Wrap f a where
+    Wrap :: (f a) -> Wrap f a
+    deriving (Eq, Show)
+
+instance (Functor f) => Functor (Wrap f) where
+    fmap f (Wrap f') = Wrap $ fmap f f'

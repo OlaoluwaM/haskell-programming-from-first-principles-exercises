@@ -1,4 +1,4 @@
-# Chapter 16 Exercises
+# Chapter 17 Exercises
 
 ## Exercises: Lookups
 

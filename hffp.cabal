@@ -35,6 +35,7 @@ library
       Ch16.ExFuncInstances
       Ch16.Playground
       Ch16.ReplaceExperiment
+      Ch17.Playground
       Ch8.Playground
       Ch9.Cipher
       Ch9.Playground

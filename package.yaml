@@ -42,6 +42,7 @@ library:
     - containers
     - hspec
     - QuickCheck
+    - checkers
 
 executables:
   hffp:
@@ -67,3 +68,5 @@ tests:
       - hspec
       - QuickCheck
       - containers
+      - checkers
+      - hspec-checkers

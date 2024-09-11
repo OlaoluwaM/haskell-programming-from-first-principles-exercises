@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.36.0.
+-- This file has been generated from package.yaml by hpack version 0.37.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -38,11 +38,15 @@ library
       Ch17.BadMonoid
       Ch17.InstancesEx
       Ch17.Playground
+      Ch18.BadMonad
+      Ch18.InstancesEx
+      Ch18.Playground
+      Ch20.InstancesEx
+      Ch20.Playground
       Ch8.Playground
       Ch9.Cipher
       Ch9.Playground
       Ch9.StdFunc
-      Lib
   hs-source-dirs:
       src
   default-extensions:
@@ -87,6 +91,8 @@ test-suite hffp-test
       Ch15.ExerciseSpec
       Ch16.ExFuncInstancesSpec
       Ch17.InstancesExSpec
+      Ch18.InstancesExSpec
+      Ch20.InstancesExSpec
       Ch8.WordNumberSpec
   hs-source-dirs:
       test

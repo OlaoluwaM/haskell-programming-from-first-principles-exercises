@@ -124,7 +124,7 @@ instance (Monoid e) => Applicative (Validation e) where
     (Success f) <*> (Success a) = Success (f a)
 ```
 
-## Section 16.17
+## Section 17.17
 
 Given a type that has an instance of Applicative, specialize the types of the methods. Test your specialization in the REPL. One way to do this is to bind aliases of the type class methods to more concrete types that have the type we tell you to fill in
 

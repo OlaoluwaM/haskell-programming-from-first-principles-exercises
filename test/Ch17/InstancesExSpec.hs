@@ -8,6 +8,7 @@ import Data.Bifunctor (first)
 import Test.Hspec.Checkers
 import Test.QuickCheck.Classes
 
+-- TODO also include tests for the functor laws for each type
 spec :: Spec
 spec = describe "Using the checkers package to validate Applicative instances (applicative laws)" $ do
     testBatch (first (const "Pair a") $ applicative examplePair)

@@ -43,6 +43,8 @@ library
       Ch18.Playground
       Ch20.InstancesEx
       Ch20.Playground
+      Ch21.InstancesEx
+      Ch21.Playground
       Ch8.Playground
       Ch9.Cipher
       Ch9.Playground
@@ -93,6 +95,7 @@ test-suite hffp-test
       Ch17.InstancesExSpec
       Ch18.InstancesExSpec
       Ch20.InstancesExSpec
+      Ch21.InstancesExSpec
       Ch8.WordNumberSpec
   hs-source-dirs:
       test

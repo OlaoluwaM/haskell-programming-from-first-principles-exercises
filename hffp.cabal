@@ -47,6 +47,12 @@ library
       Ch21.Playground
       Ch22.ChapterEx
       Ch22.Playground
+      Ch23.ChapterEx
+      Ch23.Die
+      Ch23.MyState
+      Ch23.Playground
+      Ch25.ChapterEx
+      Ch25.Playgroud
       Ch8.Playground
       Ch9.Cipher
       Ch9.Playground
@@ -65,8 +71,10 @@ library
     , checkers
     , containers
     , hspec
+    , lens
     , random
     , time
+    , transformers
   default-language: Haskell2010
 
 executable hffp

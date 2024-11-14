@@ -43,6 +43,8 @@ library:
     - hspec
     - QuickCheck
     - checkers
+    - transformers
+    - lens
 
 executables:
   hffp:

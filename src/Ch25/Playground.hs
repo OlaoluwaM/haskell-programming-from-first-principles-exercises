@@ -42,3 +42,16 @@ instance (Applicative f, Applicative g, Applicative h, Applicative j) => Applica
     pure = Four . pure . pure . pure . pure
 
     (Four fghjf) <*> (Four fghja) = Four $ liftA2 (liftA2 (liftA2 (<*>))) fghjf fghja
+
+newtype IdentityT m a = IdentityT {runIdentity :: m a}
+    deriving (Eq, Show)
+
+instance Functor m => Functor (IdentityT m) where
+    fmap f (IdentityT ma) = IdentityT $ fmap f ma
+
+instance Applicative m => Applicative (IdentityT m) where
+    pure = IdentityT . pure
+    (IdentityT mf) <*> (IdentityT ma) = IdentityT $ mf <*> ma
+
+instance Monad m => Monad (IdentityT m) where
+    (IdentityT ma) >>= fmb = IdentityT $ ma >>= runIdentity . fmb

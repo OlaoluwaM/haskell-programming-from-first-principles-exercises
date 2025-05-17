@@ -1,7 +1,7 @@
 {
-  "codeium.enableConfig": {
-    "haskell": false,
-    "markdown": false
+  "github.copilot.enable": {
+    "*": true,
+    "haskell": false
   },
   "cSpell.words": ["Ceaser", "hspec"]
 }

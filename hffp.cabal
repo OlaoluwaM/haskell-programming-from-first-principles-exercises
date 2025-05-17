@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.37.0.
+-- This file has been generated from package.yaml by hpack version 0.38.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -53,6 +53,10 @@ library
       Ch23.Playground
       Ch25.ChapterEx
       Ch25.Playground
+      Ch26.ChapterEx
+      Ch26.Playground
+      Ch27.Playground
+      Ch27.StrictList
       Ch8.Playground
       Ch9.Cipher
       Ch9.Playground

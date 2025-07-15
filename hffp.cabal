@@ -57,6 +57,9 @@ library
       Ch26.Playground
       Ch27.Playground
       Ch27.StrictList
+      Ch28.Benchmark
+      Ch28.Playground
+      Ch28.Profile
       Ch30.Playground
       Ch8.Playground
       Ch9.Cipher
@@ -75,6 +78,7 @@ library
     , base
     , checkers
     , containers
+    , criterion
     , hspec
     , lens
     , random

@@ -36,15 +36,16 @@ ghc-options:
 library:
   source-dirs: src
   dependencies:
-    - random
-    - time
-    - PyF
-    - containers
-    - hspec
-    - QuickCheck
     - checkers
-    - transformers
+    - containers
+    - criterion
+    - hspec
+    - random
     - lens
+    - PyF
+    - QuickCheck
+    - time
+    - transformers
 
 executables:
   hffp:
